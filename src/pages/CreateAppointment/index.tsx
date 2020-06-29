@@ -3,14 +3,19 @@ import Icon from 'react-native-vector-icons/Feather';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
+import { Provider } from './types';
 import {
   Container,
   Header,
   BackButton,
   HeaderTitle,
   UserAvatar,
+  ProvidersListContainer,
+  ProvidersList,
+  ProviderContainer,
+  ProviderAvatar,
+  ProviderName,
 } from './styles';
-import { Provider } from '../Dashboard/types';
 
 interface RouteParams {
   providerId: string;
@@ -28,6 +33,14 @@ const CreateAppointment: React.FC = () => {
 
   const routeParams = route.params as RouteParams;
 
+  const [selectedProvider, setSelectedProvider] = useState(
+    routeParams.providerId,
+  );
+
+  const handleSelectedProvider = useCallback((providerId) => {
+    setSelectedProvider(providerId);
+  }, []);
+
   const navigateBack = useCallback(() => {
     goBack();
   }, [goBack]);
@@ -41,8 +54,28 @@ const CreateAppointment: React.FC = () => {
 
         <HeaderTitle>Cabeleireiros</HeaderTitle>
 
-        <UserAvatar source={{ uri: user.avatarUrl }} />
+        {user.avatarUrl && <UserAvatar source={{ uri: user.avatarUrl }} />}
       </Header>
+
+      <ProvidersListContainer>
+        <ProvidersList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={providers}
+          keyExtractor={(provider) => provider.id}
+          renderItem={({ item: provider }) => (
+            <ProviderContainer
+              onPress={() => handleSelectedProvider(provider.id)}
+              selected={provider.id === selectedProvider}
+            >
+              {provider.avatarUrl && (
+                <ProviderAvatar source={{ uri: provider.avatarUrl }} />
+              )}
+              <ProviderName>{provider.name}</ProviderName>
+            </ProviderContainer>
+          )}
+        />
+      </ProvidersListContainer>
     </Container>
   );
 };
