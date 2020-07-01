@@ -148,7 +148,7 @@ export const CreateAppointmentButton = styled.TouchableOpacity`
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  margin: 0 24px 24px;
+  margin: 0 24px 180px;
 `;
 
 export const CreateAppointmentButtonText = styled.Text`

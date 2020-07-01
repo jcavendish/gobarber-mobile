@@ -100,6 +100,10 @@ const CreateAppointment: React.FC = () => {
     setSelectedHour(hour);
   }, []);
 
+  useEffect(() => {
+    setSelectedHour(0);
+  }, [selectedProvider, selectedDate]);
+
   const handleCreateAppointments = useCallback(async () => {
     try {
       const date = new Date(selectedDate);
