@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
   const { navigate } = useNavigation();
 
   useEffect(() => {
-    api.get('providers').then((response) => setProviders(response.data));
+    api.get('providers').then(response => setProviders(response.data));
   }, []);
 
   const navigateToProfile = useCallback(() => {
@@ -50,13 +50,13 @@ const Dashboard: React.FC = () => {
         </HeaderTitle>
 
         <ProfileButton onPress={signOut}>
-          <UserAvatar source={{ uri: user.avatarUrl }} />
+          {user.avatarUrl && <UserAvatar source={{ uri: user.avatarUrl }} />}
         </ProfileButton>
       </Header>
 
       <ProvidersList
         data={providers}
-        keyExtractor={(provider) => provider.id}
+        keyExtractor={provider => provider.id}
         ListHeaderComponent={
           <ProvidersListTitle>Cabeleireiros</ProvidersListTitle>
         }
@@ -64,7 +64,9 @@ const Dashboard: React.FC = () => {
           <ProviderContainer
             onPress={() => navigateToCreateAppointment(provider.id)}
           >
-            <ProviderAvatar source={{ uri: provider.avatarUrl }} />
+            {provider.avatarUrl && (
+              <ProviderAvatar source={{ uri: provider.avatarUrl }} />
+            )}
 
             <ProviderInfo>
               <ProviderName>{provider.name}</ProviderName>
